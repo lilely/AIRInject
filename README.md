@@ -26,7 +26,7 @@ The `AIRContainter` class represents a dependency injection container, which sto
      // Example to retrieve:
      ClassA *A = [container resolve:@protocol(protocolA)];
 ```    
-`A` and `X` are protocols, `B` is a type conforming `A`, and `Y` is a type conforming `X` and depending on `A`.
+`protocolA` and `ProtocolB` are protocols, `ClassA` is a type conforming `protocolA`, and `ClassB` is a type conforming `protocolB` and is depended by `ClassA`.
     
 ### Multi Parameters
 
