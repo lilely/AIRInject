@@ -22,8 +22,9 @@ The `AIRContainter` class represents a dependency injection container, which sto
          instanceA.propertyB = [resolver resolve:protocolB];
          return instanceA;
      }];
-// **Example to retrieve:**
-    ClassA *A = [container resolve:protocolA];
+     
+     // Example to retrieve:
+     ClassA *A = [container resolve:protocolA];
 ```    
 `A` and `X` are protocols, `B` is a type conforming `A`, and `Y` is a type conforming `X` and depending on `A`.
     
