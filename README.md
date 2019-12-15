@@ -56,7 +56,7 @@ The factory block passed to the register method can take arguments that are pass
      }];
      [container register:@protocol(TeacherProtocol) factory:^id (id<AIRResolverProtocol> resolver,NSString *param1) {
          TeacherClass * teacher = [[TeacherClass alloc] initWithName:param1];
-         teacher.stutent = [resolver resolve:@protocol(PersonProtocol) arguments:@"Peter"];
+         teacher.stutent = [resolver resolve:@protocol(StutentProtocol) arguments:@"Peter"];
          return teacher;
      }];
      
