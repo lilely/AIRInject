@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 #import "TestProtocol.h"
+#import "TestClassF.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TestClassC : NSObject<protocolC>
 
 @property (nonatomic, strong) NSString *param1;
+
+@property (nonatomic, strong) TestClassF *obj;
 
 - (instancetype)initWithParam1:(NSString *)param;
 

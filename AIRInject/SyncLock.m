@@ -31,7 +31,7 @@
     pthread_mutex_destroy(&_lock);
 }
 
-- (executeBlock)sync:(id (^)(void))block {
+- (id)sync:(id (^)(void))block {
     id(^syncBlock)(void) = ^id(){
         id ret;
         pthread_mutex_lock(&self->_lock);
@@ -39,7 +39,7 @@
         pthread_mutex_unlock(&self->_lock);
         return ret;
     };
-    return syncBlock;
+    return syncBlock();
 }
 
 @end

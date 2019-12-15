@@ -12,18 +12,18 @@
 /// This Protocol defines interfaces for resolving one protocol to coresponding instance.
 /// New interfaces will be defined in later versions.
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol AIRResolverProtocol <NSObject>
 
 - (id)resolve:(Protocol *)protocol;
 
-- (id)resolve:(Protocol *)protocol name:(NSString *)name;
+- (id)resolve:(Protocol *)protocol name:(NSString * __nullable)name;
 
-- (id)resolve:(Protocol *)protocol name:(NSString *)name param1:(id)param1;
-
-- (id)resolve:(Protocol *)protocol name:(NSString *)name param1:(id)param1 param2:(id)param2;
-
-- (id)resolve:(Protocol *)protocol name:(NSString *)name param1:(id)param1 param2:(id)param2 param3:(id)param3;
+- (id)resolve:(Protocol *)protocol name:(NSString * __nullable)name arguments:(id)arguments, ...;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* AIRResolver_h */

@@ -14,7 +14,7 @@ typedef id _Nonnull (^executeBlock)(void);
 
 @interface SyncLock : NSObject
 
-@property (nonatomic, copy, readonly) executeBlock(^sync)(id (^)(void));
+- (id)sync:(id (^)(void))block;
 
 @end
 

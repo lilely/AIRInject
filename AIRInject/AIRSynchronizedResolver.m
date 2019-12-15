@@ -26,34 +26,21 @@
 }
 
 - (id)resolve:(Protocol *)protocol {
-    return self.container.lock.sync(^id{
+    return [self.container.lock sync:(^id{
         return [self.container resolve:protocol];
-    });
+    })];
 }
 
 - (id)resolve:(Protocol *)protocol name:(NSString *)name {
-    return self.container.lock.sync(^id{
+    return [self.container.lock sync:(^id{
         return [self.container resolve:protocol name:name];
-    });
+    })];
 }
 
-- (id)resolve:(Protocol *)protocol name:(NSString *)name param1:(id)param1 {
-    return self.container.lock.sync(^id{
-        return [self.container resolve:protocol name:name param1:param1];
-    });
+- (id)resolve:(Protocol *)protocol name:(NSString *)name arguments:(id)arguments, ...{
+    return [self.container.lock sync:(^id{
+        return [self.container resolve:protocol name:name arguments:arguments];
+    })];
 }
-
-- (id)resolve:(Protocol *)protocol name:(NSString *)name param1:(id)param1 param2:(id)param2 {
-    return self.container.lock.sync(^id{
-        return [self.container resolve:protocol name:name param1:param1 param2:param2];
-    });
-}
-
-- (id)resolve:(Protocol *)protocol name:(NSString *)name param1:(id)param1 param2:(id)param2 param3:(id)param3 {
-    return self.container.lock.sync(^id{
-        return [self.container resolve:protocol name:name param1:param1 param2:param2 param3:param3];
-    });
-}
-
 
 @end

@@ -10,6 +10,7 @@
 #import "AIRContainer_priviate.h"
 #import "AIRGraphIdentifier.h"
 #import "AIRServiceKey.h"
+#import "NSInvocation+Block.h"
 #import <pthread.h>
 
 @interface AIRContainer()
@@ -178,25 +179,32 @@
     }];
 }
 
-- (id)resolve:(Protocol *)protocol name:(NSString *)name param1:(id)param1 {
+- (id)resolve:(Protocol *)protocol name:(NSString *)name arguments:(id)arguments, ...{
+    va_list args;
+    va_start(args, arguments);
+    NSMutableArray *argumentsArray = [[NSMutableArray alloc] init];
+    for (id argument = arguments; argument != nil; argument = va_arg(args, id)) {
+        [argumentsArray addObject:argument];
+    }
+    va_end(args);
+    id container = self;
     return [self _resolve:protocol name:name invoker:^id(id (^factory)()) {
-        return factory(self, param1);
+        void *result;
+        NSInvocation *invocation = [NSInvocation invocationWithBlock:factory];
+        NSUInteger argumentCount = invocation.methodSignature.numberOfArguments;
+        [invocation setArgument:&container atIndex:1];
+        [argumentsArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (idx+2 == argumentCount) {
+                *stop = YES;
+            } else {
+                [invocation setArgument:&obj atIndex:idx+2];
+            }
+        }];
+        [invocation invoke];
+        [invocation getReturnValue:&result];
+        return (__bridge id)result;
     }];
 }
-
-- (id)resolve:(Protocol *)protocol name:(NSString *)name param1:(id)param1 param2:(id)param2 {
-    return [self _resolve:protocol name:name invoker:^id(id (^factory)()) {
-        return factory(self, param1,param2);
-    }];
-}
-
-
-- (id)resolve:(Protocol *)protocol name:(NSString *)name param1:(id)param1 param2:(id)param2 param3:(id)param3 {
-    return [self _resolve:protocol name:name invoker:^id(id (^factory)()) {
-        return factory(self, param1, param2, param3);
-    }];
-}
-#pragma clang diagnostic pop
 
 #pragma mark - Getter
 

@@ -41,19 +41,65 @@
 
 - (void)testCase001 {
     AIRContainer *container = [[AIRContainer alloc] initWithScope:AIRScopeTypeGraph parent:nil];
+    
     [container register:@protocol(protocolC) name:nil paramOneFactory:^id(id<AIRResolverProtocol> _Nonnull resolver,NSString *param){
         TestClassC * instanceC = [[TestClassC alloc] initWithParam1:param];
         return instanceC;
     }];
-    
-    TestClassC *instanceC0 = [container resolve:@protocol(protocolC) name:nil];
-    TestClassC *instanceC1 = [container resolve:@protocol(protocolC) name:nil param1:@"123"];
-    TestClassC *instanceC2 = [container resolve:@protocol(protocolC) name:nil param1:@"123" param2:@"456"];
-    TestClassC *instanceC3 = [container resolve:@protocol(protocolC) name:nil param1:@"123" param2:@"456" param3:@"789"];
-    XCTAssert(instanceC0.param1 == nil, @"resolve class C with param failed");
-    XCTAssert([instanceC1.param1 isEqualToString:@"123"], @"resolve class C with param failed");
-    XCTAssert([instanceC2.param1 isEqualToString:@"123"], @"resolve class C with param failed");
-    XCTAssert([instanceC3.param1 isEqualToString:@"123"], @"resolve class C with param failed");
+    TestClassC * instance = [container resolve:@protocol(protocolC) name:nil arguments: @"321",@"123",@"1238",nil];
+    XCTAssert([instance.param1 isEqualToString:@"321"], @"resolve class C with param failed");
 }
+
+- (void)testCase002 {
+    AIRContainer *container = [[AIRContainer alloc] initWithScope:AIRScopeTypeGraph parent:nil];
+    [container register:@protocol(protocolC) name:nil paramOneFactory:^id(id<AIRResolverProtocol> _Nonnull resolver,NSString *param){
+        TestClassC * instanceC = [[TestClassC alloc] initWithParam1:param];
+        return instanceC;
+    }];
+    TestClassC * instance = [container resolve:@protocol(protocolC) name:nil arguments: @"321",@"123",@"1238",nil];
+    XCTAssert([instance.param1 isEqualToString:@"321"], @"resolve class C with param failed");
+}
+
+- (void)testCase003 {
+    AIRContainer *container = [[AIRContainer alloc] initWithScope:AIRScopeTypeGraph parent:nil];
+    [container register:@protocol(protocolC) name:nil paramOneFactory:^id _Nonnull(id<AIRResolverProtocol>  _Nonnull resolver,NSString *param) {
+        TestClassC * instanceC = [[TestClassC alloc] initWithParam1:param];
+        instanceC.obj = [resolver resolve:@protocol(protocolF) name:nil];
+        return instanceC;
+    }];
+
+    [container register:@protocol(protocolF) factory:^id _Nonnull(id<AIRResolverProtocol>  _Nonnull resolver) {
+        TestClassF *instanceF = [[TestClassF alloc] init];
+        return instanceF;
+    }];
+    
+    TestClassC * instanceC = [container resolve:@protocol(protocolC) name:nil arguments:@"321"];
+    
+    XCTAssert([instanceC.param1 isEqualToString:@"321"], @"resolve class C with param failed");
+    XCTAssert(instanceC.obj&&[instanceC.obj isKindOfClass:TestClassF.class], @"resolve class C with param failed");
+}
+
+- (void)testCase004 {
+    AIRContainer *container = [[AIRContainer alloc] initWithScope:AIRScopeTypeGraph parent:nil];
+    
+    [container register:@protocol(protocolC) name:nil paramOneFactory:^id _Nonnull(id<AIRResolverProtocol>  _Nonnull resolver,NSString *param) {
+        TestClassC * instanceC = [[TestClassC alloc] initWithParam1:param];
+        instanceC.obj = [resolver resolve:@protocol(protocolF) name:nil];
+        return instanceC;
+    }];
+
+    [container register:@protocol(protocolF) factory:^id _Nonnull(id<AIRResolverProtocol>  _Nonnull resolver) {
+        TestClassF *instanceF = [[TestClassF alloc] init];
+        return instanceF;
+    }];
+    
+    AIRSynchronizedResolver *resolver = [[AIRSynchronizedResolver alloc] initWithContainer:container];
+    
+    TestClassC * instanceC = [resolver resolve:@protocol(protocolC) name:nil arguments:@"321"];
+    
+    XCTAssert([instanceC.param1 isEqualToString:@"321"], @"resolve class C with param failed");
+    XCTAssert(instanceC.obj&&[instanceC.obj isKindOfClass:TestClassF.class], @"resolve class C with param failed");
+}
+
 
 @end

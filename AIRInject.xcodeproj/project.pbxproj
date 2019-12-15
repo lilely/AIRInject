@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66359D6B23A6538A00E391E3 /* NSInvocation+Block.h in Headers */ = {isa = PBXBuildFile; fileRef = 66359D6923A6538900E391E3 /* NSInvocation+Block.h */; };
+		66359D6C23A6538A00E391E3 /* NSInvocation+Block.m in Sources */ = {isa = PBXBuildFile; fileRef = 66359D6A23A6538900E391E3 /* NSInvocation+Block.m */; };
 		66C40EDA239B4B5000EC1DE6 /* AIRInject.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C40ED0239B4B5000EC1DE6 /* AIRInject.framework */; };
 		66C40EF8239B4B9500EC1DE6 /* AIRObjectScope.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C40EEA239B4B9400EC1DE6 /* AIRObjectScope.m */; };
 		66C40EF9239B4B9500EC1DE6 /* AIRContainer.h in Headers */ = {isa = PBXBuildFile; fileRef = 66C40EEB239B4B9400EC1DE6 /* AIRContainer.h */; };
@@ -52,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		66359D6923A6538900E391E3 /* NSInvocation+Block.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSInvocation+Block.h"; sourceTree = "<group>"; };
+		66359D6A23A6538900E391E3 /* NSInvocation+Block.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSInvocation+Block.m"; sourceTree = "<group>"; };
 		66C40ED0239B4B5000EC1DE6 /* AIRInject.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AIRInject.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		66C40ED4239B4B5000EC1DE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		66C40ED9239B4B5000EC1DE6 /* AIRInjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AIRInjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -157,6 +161,8 @@
 				66C40EEC239B4B9400EC1DE6 /* AIRServiceKey.m */,
 				66C40F32239CF2D700EC1DE6 /* SyncLock.h */,
 				66C40F33239CF2D700EC1DE6 /* SyncLock.m */,
+				66359D6923A6538900E391E3 /* NSInvocation+Block.h */,
+				66359D6A23A6538900E391E3 /* NSInvocation+Block.m */,
 				66C40ED4239B4B5000EC1DE6 /* Info.plist */,
 			);
 			path = AIRInject;
@@ -207,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66C40F34239CF2D700EC1DE6 /* SyncLock.h in Headers */,
+				66359D6B23A6538A00E391E3 /* NSInvocation+Block.h in Headers */,
 				66C40F29239BC7F700EC1DE6 /* AIRSynchronizedResolver.h in Headers */,
 				66C40F04239B4B9500EC1DE6 /* AIRInject.h in Headers */,
 				66C40EFE239B4B9500EC1DE6 /* AIRGraphIdentifier.h in Headers */,
@@ -321,6 +328,7 @@
 				66C40EFF239B4B9500EC1DE6 /* AIRContainer.m in Sources */,
 				66C40F05239B4B9500EC1DE6 /* AIRServiceEntry.m in Sources */,
 				66C40F35239CF2D700EC1DE6 /* SyncLock.m in Sources */,
+				66359D6C23A6538A00E391E3 /* NSInvocation+Block.m in Sources */,
 				66C40EFD239B4B9500EC1DE6 /* AIRGraphIdentifier.m in Sources */,
 				66C40EFB239B4B9500EC1DE6 /* AIRInstanceStorage.m in Sources */,
 				66C40EFA239B4B9500EC1DE6 /* AIRServiceKey.m in Sources */,
