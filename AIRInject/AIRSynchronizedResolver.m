@@ -8,6 +8,7 @@
 
 #import "AIRSynchronizedResolver.h"
 #import "AIRContainer_priviate.h"
+#import "AIRContainer+Arguments.h"
 #import <pthread.h>
 
 @interface AIRSynchronizedResolver()
@@ -40,6 +41,24 @@
 - (id)resolve:(Protocol *)protocol name:(NSString *)name arguments:(id)arguments, ...{
     return [self.container.lock sync:(^id{
         return [self.container resolve:protocol name:name arguments:arguments];
+    })];
+}
+
+- (id)resolveClass:(Class)class {
+    return [self.container.lock sync:(^id{
+        return [self.container resolveClass:class];
+    })];
+}
+
+- (id)resolveClass:(Class)class name:(NSString *)name {
+    return [self.container.lock sync:(^id{
+        return [self.container resolveClass:class name:name];
+    })];
+}
+
+- (id)resolveClass:(Class)class name:(NSString *)name arguments:(id)arguments, ...{
+    return [self.container.lock sync:(^id{
+        return [self.container resolveClass:class name:name arguments:arguments];
     })];
 }
 

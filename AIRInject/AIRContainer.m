@@ -207,6 +207,19 @@
         return factory(self);
     }];
 }
+
+- (id)resolveClass:(Class)klass {
+    return [self _resolveClass:klass name:nil invoker:^id(id (^factory)()) {
+        return factory(self);
+    }];
+}
+
+- (id)resolveClass:(Class)klass name:(NSString * __nullable)name {
+    return [self _resolveClass:klass name:name invoker:^id(id (^factory)()) {
+        return factory(self);
+    }];
+}
+
 #pragma clang diagnostic pop
 
 #pragma mark - Getter

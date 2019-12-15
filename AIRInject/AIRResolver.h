@@ -20,6 +20,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (id)resolve:(Protocol *)protocol name:(NSString * __nullable)name;
 
+- (id)resolveClass:(Class)klass;
+
+- (id)resolveClass:(Class)klass name:(NSString * __nullable)name;
+
 @optional
 
 - (id)resolve:(Protocol *)protocol name:(NSString * __nullable)name arguments:(id)arguments, ...;
