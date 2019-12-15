@@ -28,7 +28,7 @@ The `AIRContainter` class represents a dependency injection container, which sto
 ```    
 `protocolA` and `ProtocolB` are protocols, `ClassA` is a type conforming `protocolA`, and `ClassB` is a type conforming `protocolB` and is depended by `ClassA`.
     
-### Multi Parameters
+### Arguments
 
 ### Injection Patterns
 
