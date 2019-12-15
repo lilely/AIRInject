@@ -10,12 +10,12 @@
 #import "AIRContainer_priviate.h"
 #import "AIRGraphIdentifier.h"
 #import "AIRServiceKey.h"
-#import "NSInvocation+Block.h"
-#import <pthread.h>
 
 @interface AIRContainer()
 
 @property (nonatomic, strong) NSMutableDictionary<AIRServiceKey *,AIRServiceEntry *> *services;
+
+@property (nonatomic, strong) NSMutableDictionary<AIRServiceKey *,AIRServiceEntry *> *klassServices;
 
 @property (nonatomic, assign) NSUInteger resolutionDepth;
 
@@ -57,16 +57,12 @@
     return [self _register:protocol name:name commponFactory:factory];
 }
 
-- (AIRServiceEntry *)register:(Protocol *)protocol name:(NSString * __nullable)name paramOneFactory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver,id param1))factory {
-    return [self _register:protocol name:name commponFactory:factory];
+- (AIRServiceEntry *)registerClass:(Class)klass factory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver))factory {
+    return [self registerClass:klass name:nil factory:factory];
 }
 
-- (AIRServiceEntry *)register:(Protocol *)protocol name:(NSString * __nullable)name paramTwoFactory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver,id param1, id param2))factory {
-    return [self _register:protocol name:name commponFactory:factory];
-}
-
-- (AIRServiceEntry *)register:(Protocol *)protocol name:(NSString * __nullable)name paramThreeFactory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver,id param1, id param2,id param3))factory {
-    return [self _register:protocol name:name commponFactory:factory];
+- (AIRServiceEntry *)registerClass:(Class)klass name:(NSString * __nullable)name factory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver))factory {
+    return [self _registerClass:klass name:name commponFactory:factory];
 }
 
 #pragma clang diagnostic push
@@ -77,6 +73,14 @@
     self.services[key] = entry;
     return entry;
 }
+
+- (AIRServiceEntry *)_registerClass:(Class)klass name:(NSString *)name commponFactory:(id _Nonnull (^)())factory {
+    AIRServiceKey *key = [[AIRServiceKey alloc] initWithKlassIdentifier:NSStringFromClass(klass) name:name];
+    AIRServiceEntry *entry = [[AIRServiceEntry alloc] initWithKey:key objectScope:self.scope factory:factory];
+    self.klassServices[key] = entry;
+    return entry;
+}
+
 #pragma clang diagnostic pop
 
 - (id)_resolve:(Protocol *)protocol name:(NSString*)name invoker:(id (^)(id (^)(id<AIRResolverProtocol>)))invoker {
@@ -88,6 +92,20 @@
     }
     instance = [self resolveByEntry:entry invoker:invoker];
     if (![instance conformsToProtocol:protocol]) {
+        NSAssert(NO, @"Instace resolved does not confrim to protocol");
+    }
+    return instance;
+}
+
+- (id)_resolveClass:(Class)class name:(NSString*)name invoker:(id (^)(id (^)(id<AIRResolverProtocol>)))invoker {
+    AIRServiceKey *key = [[AIRServiceKey alloc] initWithKlassIdentifier:NSStringFromClass(class) name:name];
+    AIRServiceEntry *entry = [self classEntryOfServiceKey:key];
+    id instance = nil;
+    if (!entry) {
+        return nil;
+    }
+    instance = [self resolveByEntry:entry invoker:invoker];
+    if (![instance isKindOfClass:class]) {
         NSAssert(NO, @"Instace resolved does not confrim to protocol");
     }
     return instance;
@@ -137,6 +155,17 @@
     return entry;
 }
 
+- (AIRServiceEntry *)classEntryOfServiceKey:(AIRServiceKey *)key {
+    if (!key) {
+        return nil;
+    }
+    AIRServiceEntry *entry = [self.klassServices objectForKey:key];
+    if (!entry) {
+        entry = [self.parenet classEntryOfServiceKey:key];
+    }
+    return entry;
+}
+
 - (void)incrementResolutionDepth {
     if (self.resolutionDepth == 0 && self.currentObjectGraph == nil) {
         self.currentObjectGraph = [AIRGraphIdentifier new];
@@ -178,33 +207,7 @@
         return factory(self);
     }];
 }
-
-- (id)resolve:(Protocol *)protocol name:(NSString *)name arguments:(id)arguments, ...{
-    va_list args;
-    va_start(args, arguments);
-    NSMutableArray *argumentsArray = [[NSMutableArray alloc] init];
-    for (id argument = arguments; argument != nil; argument = va_arg(args, id)) {
-        [argumentsArray addObject:argument];
-    }
-    va_end(args);
-    id container = self;
-    return [self _resolve:protocol name:name invoker:^id(id (^factory)()) {
-        void *result;
-        NSInvocation *invocation = [NSInvocation invocationWithBlock:factory];
-        NSUInteger argumentCount = invocation.methodSignature.numberOfArguments;
-        [invocation setArgument:&container atIndex:1];
-        [argumentsArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if (idx+2 == argumentCount) {
-                *stop = YES;
-            } else {
-                [invocation setArgument:&obj atIndex:idx+2];
-            }
-        }];
-        [invocation invoke];
-        [invocation getReturnValue:&result];
-        return (__bridge id)result;
-    }];
-}
+#pragma clang diagnostic pop
 
 #pragma mark - Getter
 

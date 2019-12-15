@@ -14,7 +14,18 @@
 
 @interface AIRContainer()
 
-@property (nonatomic, strong) SyncLock *lock;
+@property (nonatomic, strong) SyncLock * _Nonnull lock;
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wstrict-prototypes"
+- (AIRServiceEntry *)_register:(Protocol *)protocol name:(NSString * __nullable)name commponFactory:(id _Nonnull (^)())factory;
+
+- (AIRServiceEntry *)_registerClass:(Class)klass name:(NSString * __nullable)name commponFactory:(id _Nonnull (^)())factory;
+
+- (id)_resolve:(Protocol *)protocol name:(NSString* __nullable)name invoker:(id (^)(id (^)(id<AIRResolverProtocol>)))invoker;
+
+- (id)_resolveClass:(Class)class name:(NSString* __nullable)name invoker:(id (^)(id (^)(id<AIRResolverProtocol>)))invoker;
+#pragma clang diagnostic pop
 
 @end
 

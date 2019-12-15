@@ -49,11 +49,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (AIRServiceEntry *)register:(Protocol *)protocol name:(NSString * __nullable)name factory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver))factory;
 
-- (AIRServiceEntry *)register:(Protocol *)protocol name:(NSString * __nullable)name paramOneFactory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver,id param1))factory;
+- (AIRServiceEntry *)registerClass:(Class)klass factory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver))factory;
 
-- (AIRServiceEntry *)register:(Protocol *)protocol name:(NSString * __nullable)name paramTwoFactory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver,id param1, id param2))factory;
-
-- (AIRServiceEntry *)register:(Protocol *)protocol name:(NSString * __nullable)name paramThreeFactory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver,id param1, id param2,id param3))factory;
+- (AIRServiceEntry *)registerClass:(Class)klass name:(NSString * __nullable)name factory:(id _Nonnull (^)(id<AIRResolverProtocol> resolver))factory;
 
 @end
 
