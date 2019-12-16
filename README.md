@@ -36,60 +36,60 @@ Here is an example of service registration:
 
 ```Object-C
 AIRContainter *container = [AIRContainter new];
-     [container register:@protocol(StutentProtocol) factory:^id (id<AIRResolverProtocol> resolver) {
-         StutentClass * stutent = [[StutentClass alloc] initWithName:@"Peter"];
-         return stutent;
-     }];
-     [container register:@protocol(TeacherProtocol) factory:^id (id<AIRResolverProtocol> resolver) {
-         TeacherClass * teacher = [[TeacherClass alloc] initWithName:@"David"];
-         teacher.stutent = [resolver resolve:@protocol(StutentProtocol)];
-         return teacher;
-     }];
+[container register:@protocol(StutentProtocol) factory:^id (id<AIRResolverProtocol> resolver) {     
+     StutentClass * stutent = [[StutentClass alloc] initWithName:@"Peter"];
+     return stutent;
+}];
+[container register:@protocol(TeacherProtocol) factory:^id (id<AIRResolverProtocol> resolver) {
+     TeacherClass * teacher = [[TeacherClass alloc] initWithName:@"David"];
+     teacher.stutent = [resolver resolve:@protocol(StutentProtocol)];
+     return teacher;
+}];
      // StutentClass comfirms to StutentProtocol and TeacherClass confirms to TeacherProtocol.
 ``` 
 The factory block passed to the register method can take arguments that are passed when the service is resolved. Then you can pass arguments to determin the actual initialize properties or the actual type of the component when it is resolved.Here is some examples:
 
 ```Object-C
-     [container register:@protocol(StutentProtocol) paramOnefactory:^id (id<AIRResolverProtocol> resolver,NSString *param1) {
-         StutentClass * stutent = [[StutentClass alloc] initWithName:param1];
-         return stutent;
-     }];
-     [container register:@protocol(TeacherProtocol) factory:^id (id<AIRResolverProtocol> resolver,NSString *param1) {
-         TeacherClass * teacher = [[TeacherClass alloc] initWithName:param1];
-         teacher.stutent = [resolver resolve:@protocol(StutentProtocol) arguments:@"Peter"];
-         return teacher;
-     }];
-     
-     id<TeacherProtocol> teacher = [container resolve:@protocol(TeacherProtocol) arguments:@"David"];
-     // teacher.name is @"David", teacher.stutent.name is @"Peter"
+[container register:@protocol(StutentProtocol) paramOnefactory:^id (id<AIRResolverProtocol> resolver,NSString *param1) {
+     StutentClass * stutent = [[StutentClass alloc] initWithName:param1];
+     return stutent;
+}];
+[container register:@protocol(TeacherProtocol) factory:^id (id<AIRResolverProtocol> resolver,NSString *param1) {
+     TeacherClass * teacher = [[TeacherClass alloc] initWithName:param1];
+     teacher.stutent = [resolver resolve:@protocol(StutentProtocol) arguments:@"Peter"];
+     return teacher;
+}];
+
+id<TeacherProtocol> teacher = [container resolve:@protocol(TeacherProtocol) arguments:@"David"];
+/// teacher.name is @"David", teacher.stutent.name is @"Peter"
 ```
 
 Here is the example that how to determine the type of the component when it is resolved.
 
 ```Object-C
-     [container register:@protocol(StutentProtocol) paramOnefactory:^id (id<AIRResolverProtocol> resolver,NSString *param1,NString *param2) {
-         if([param2 isEqutoToString:@"English"]) {
-              EngilishStutentClass * stutent = [[EngilishStutentClass alloc] initWithName:param1];
-              return stutent;
+[container register:@protocol(StutentProtocol) paramOnefactory:^id (id<AIRResolverProtocol> resolver,NSString *param1,NString *param2) {
+     if([param2 isEqutoToString:@"English"]) {
+          EngilishStutentClass * stutent = [[EngilishStutentClass alloc] initWithName:param1];
+         return stutent;
          } else {
               StutentClass * stutent = [[StutentClass alloc] initWithName:param1];
               return stutent;
          }
      }];
-     [container register:@protocol(TeacherProtocol) factory:^id (id<AIRResolverProtocol> resolver,NSString *param1,NString *param2) {
-         if([param2 isEqutoToString:@"English"]) {
-              EnglishTeacherClass * teacher = [[EnglishTeacherClass alloc] initWithName:param1];
-              teacher.stutent = [resolver resolve:@protocol(StutentProtocol) arguments:"@"Jack",@"English",nil];
-              return teacher;
-         } else {
-              TeacherClass * teacher = [[TeacherClass alloc] initWithName:param1];
-              teacher.stutent = [resolver resolve:@protocol(StutentProtocol) arguments:@"Peter"];
-              return teacher;
-         }
-     }];
+[container register:@protocol(TeacherProtocol) factory:^id (id<AIRResolverProtocol> resolver,NSString *param1,NString *param2) {
+     if([param2 isEqutoToString:@"English"]) {
+          EnglishTeacherClass * teacher = [[EnglishTeacherClass alloc] initWithName:param1];
+          teacher.stutent = [resolver resolve:@protocol(StutentProtocol) arguments:"@"Jack",@"English",nil];  
+          return teacher;     
+     } else {
+          TeacherClass * teacher = [[TeacherClass alloc] initWithName:param1]; 
+          teacher.stutent = [resolver resolve:@protocol(StutentProtocol) arguments:@"Peter"];
+          return teacher;
+     }
+}];
      
-     id<TeacherProtocol> teacher = [container resolve:@protocol(TeacherProtocol) arguments:@"David",@"English"];
-     // teacher.name is @"David", teacher.stutent.name is @"Jack"
+id<TeacherProtocol> teacher = [container resolve:@protocol(TeacherProtocol) arguments:@"David",@"English"];
+/// teacher.name is @"David", teacher.stutent.name is @"Jack"
 ```
 
 ### Injection Patterns
@@ -116,13 +116,13 @@ The default object scope is Graph.You can spicify the object scope for particula
 Here is the example of setting the object scope.
 
 ```Object-C
-     AIRContainter *container = [AIRContainter new];
-     [[container register:@protocol(StutentProtocol) factory:^id (id<AIRResolverProtocol> resolver) {
-         StutentClass * stutent = [[StutentClass alloc] initWithName:@"Peter"];
-         return stutent;
-     }] inObjectScopeType:AIRScopeTypeWeak];
+AIRContainter *container = [AIRContainter new];
+[[container register:@protocol(StutentProtocol) factory:^id (id<AIRResolverProtocol> resolver) {
+     StutentClass * stutent = [[StutentClass alloc] initWithName:@"Peter"];
+     return stutent;
+}] inObjectScopeType:AIRScopeTypeWeak];
      
-     // The object scope of StutentProtocol service is assigned as weak scope type.
+/// The object scope of StutentProtocol service is assigned as weak scope type.
 ```
 
 ### Container Hierarchy
