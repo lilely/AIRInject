@@ -128,3 +128,16 @@ Here is the example of setting the object scope.
 ### Container Hierarchy
 
 ### Thread Safety
+The API of AIRContainer is not thread safe.If you want to use resolve api in serveral threads, AIRSynchronizedResolver is the way.AIRSynchronizedResolver confrims to AIRResolver protocol, and it is a wrapper of AIRContainer.
+Here is the example of AIRSynchronizedResolver.
+```Object-C
+AIRContainter *container = [AIRContainter new];
+[container register:@protocol(StutentProtocol) factory:^id (id<AIRResolverProtocol> resolver) {
+         StutentClass * stutent = [[StutentClass alloc] initWithName:@"Peter"];
+         return stutent;
+     }];
+AIRSynchronizedResolver *synchonizedResolver = [[AIRSynchronizedResolver alloc] initWithContainer:container];
+id<StutentProtocol> stutent = [synchonizedResolver resolve:@protocol(StutentProtocol)];
+/// Thread safe.
+
+```
