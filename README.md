@@ -98,6 +98,33 @@ Here is the example that how to determine the type of the component when it is r
 
 ### Object Scopes
 
+AIRInject support four kinds of Object scope type.They are Graph, Permanent, Weak, Transient.
+
+#### Graph:
+In Graph scope Component will be instantiated only once in the particular resloving process.This measn,the senond time when resolver try to resolve the Component of its type, the instance stored when first instantiated will be used.
+
+#### Permanent:
+It is easy to understand.In Permanent scope, Component Instantiated in the first time will be used every time in each resloving process until the Container is dealloced.
+
+#### Weak:
+In Weak scope, Component object will be stored if there is at least one other object capture it, and it will be release when there is not captured anymore.
+
+#### Transient:
+In Transient scope, Component will be Instantiated every time it is resolved.
+
+The default object scope is Graph.You can spicify the object scope for particular service.
+Here is the example of setting the object scope.
+
+```Object-C
+     AIRContainter *container = [AIRContainter new];
+     [[container register:@protocol(StutentProtocol) factory:^id (id<AIRResolverProtocol> resolver) {
+         StutentClass * stutent = [[StutentClass alloc] initWithName:@"Peter"];
+         return stutent;
+     }] inObjectScopeType:AIRScopeTypeWeak];
+     
+     // The object scope of StutentProtocol service is assigned as weak scope type.
+```
+
 ### Container Hierarchy
 
 ### Thread Safety
