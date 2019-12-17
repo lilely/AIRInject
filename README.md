@@ -92,10 +92,6 @@ id<TeacherProtocol> teacher = [container resolve:@protocol(TeacherProtocol) argu
 /// teacher.name is @"David", teacher.stutent.name is @"Jack"
 ```
 
-### Injection Patterns
-
-### Circular Dependencies
-
 ### Object Scopes
 
 AIRInject support four kinds of Object scope type.They are Graph, Permanent, Weak, Transient.
@@ -126,6 +122,20 @@ AIRContainter *container = [AIRContainter new];
 ```
 
 ### Container Hierarchy
+A container hierarchy is a tree of containers for the purposes of sharing the registrations of dependency injections. Service types registered to a parent container can be resolved in its child containers too.
+Here is the example:
+
+```Object-C
+AIRContainter *parentContainer = [[AIRContainter alloc] init];
+AIRContainter *childContainer = [[AIRContainter alloc] initWithParent:parentContainer];
+[parentContainer register:@protocol(CarProtocol) factory:^id (id<AIRResolverProtocol> resolver) {
+     Passat * car = [[Passat alloc] init];
+     return car;
+}];
+
+id<CarProtocol> car = [childContainer resolve:@protocol(CarProtocol)];
+
+```
 
 ### Thread Safety
 The API of AIRContainer is not thread safe.If you want to use resolve api in serveral threads, AIRSynchronizedResolver is the way.AIRSynchronizedResolver confrims to AIRResolver protocol, and it is a wrapper of AIRContainer.
