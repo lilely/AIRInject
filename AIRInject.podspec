@@ -18,14 +18,15 @@ This is a lightweight Dependency Inject framework of Object-C.Dependency injecti
                    DESC
 
   spec.homepage     = 'https://github.com/lilely/AIRInject'
-  spec.license      = 'MIT'
+  spec.license      = { :type => 'MIT', :file => 'LICENSE' }
   spec.author       = { 'Stanley' => 'lilely@163.com' }
 
-  spec.source       = { :git => 'https://github.com/lilely/AIRInject.git', :tag => spec.version }
+  spec.source       = { :git => 'https://github.com/lilely/AIRInject.git', :tag => '0.0.1' }
   spec.requires_arc = true
+  spec.ios.deployment_target = '8.0'
 
   spec.source_files  = 'AIRInject/*.{h,m}'
-  spec.public_header_files = 'AIRInject/AIRInject.h'
+#  spec.public_header_files = 'AIRInject/AIRInject.h'
 
 
 end
