@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = 'AIRInject'
-  spec.version      = '0.0.1'
+  spec.version      = '0.0.1a'
   spec.summary      = 'A light weight DI framework for Object-C.'
 
 
@@ -21,7 +21,7 @@ This is a lightweight Dependency Inject framework of Object-C.Dependency injecti
   spec.license      = { :type => 'MIT', :file => 'LICENSE' }
   spec.author       = { 'Stanley' => 'lilely@163.com' }
 
-  spec.source       = { :git => 'https://github.com/lilely/AIRInject.git', :tag => '0.0.1' }
+  spec.source       = { :git => 'https://github.com/lilely/AIRInject.git', :tag => '0.0.1a' }
   spec.requires_arc = true
   spec.ios.deployment_target = '8.0'
 
