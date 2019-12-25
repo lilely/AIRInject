@@ -44,12 +44,12 @@
         [argumentsArray addObject:argument];
     }
     va_end(args);
-    id container = self;
+    void *containerRef = &self;
     return [self _resolve:protocol name:name invoker:^id(id (^factory)()) {
         void *result;
         NSInvocation *invocation = [NSInvocation invocationWithBlock:factory];
         NSUInteger argumentCount = invocation.methodSignature.numberOfArguments;
-        [invocation setArgument:&container atIndex:1];
+        [invocation setArgument:containerRef atIndex:1];
         [argumentsArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (idx+2 == argumentCount) {
                 *stop = YES;
@@ -71,12 +71,12 @@
         [argumentsArray addObject:argument];
     }
     va_end(args);
-    id container = self;
+    void *containerRef = &self;
     return [self _resolveClass:klass name:name invoker:^id(id (^factory)()) {
         void *result;
         NSInvocation *invocation = [NSInvocation invocationWithBlock:factory];
         NSUInteger argumentCount = invocation.methodSignature.numberOfArguments;
-        [invocation setArgument:&container atIndex:1];
+        [invocation setArgument:containerRef atIndex:1];
         [argumentsArray enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (idx+2 == argumentCount) {
                 *stop = YES;

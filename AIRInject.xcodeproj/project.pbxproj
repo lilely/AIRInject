@@ -43,6 +43,7 @@
 		66C40F34239CF2D700EC1DE6 /* SyncLock.h in Headers */ = {isa = PBXBuildFile; fileRef = 66C40F32239CF2D700EC1DE6 /* SyncLock.h */; };
 		66C40F35239CF2D700EC1DE6 /* SyncLock.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C40F33239CF2D700EC1DE6 /* SyncLock.m */; };
 		66C40F37239D05DB00EC1DE6 /* AIRSynchronizedResolver.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C40F36239D05DB00EC1DE6 /* AIRSynchronizedResolver.m */; };
+		E2B7413623B3076A001FC20C /* AIRSynchronizedTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = E2B7413523B30769001FC20C /* AIRSynchronizedTestCase.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,7 @@
 		66C40F32239CF2D700EC1DE6 /* SyncLock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SyncLock.h; sourceTree = "<group>"; };
 		66C40F33239CF2D700EC1DE6 /* SyncLock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SyncLock.m; sourceTree = "<group>"; };
 		66C40F36239D05DB00EC1DE6 /* AIRSynchronizedResolver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AIRSynchronizedResolver.m; sourceTree = "<group>"; };
+		E2B7413523B30769001FC20C /* AIRSynchronizedTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AIRSynchronizedTestCase.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +186,7 @@
 				66C40F17239B4BDE00EC1DE6 /* AIRTransientScopeTestCase.m */,
 				66C40F12239B4BDE00EC1DE6 /* AIRWeakScopeTestCase.m */,
 				66C40F30239C8D3000EC1DE6 /* AIRMultiParamTestCase.m */,
+				E2B7413523B30769001FC20C /* AIRSynchronizedTestCase.m */,
 				66C40F26239B4BE700EC1DE6 /* TestClasses */,
 				66C40EE0239B4B5000EC1DE6 /* Info.plist */,
 			);
@@ -347,6 +350,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2B7413623B3076A001FC20C /* AIRSynchronizedTestCase.m in Sources */,
 				66C40F1A239B4BDE00EC1DE6 /* AIRInjectTests.m in Sources */,
 				66C40F22239B4BDE00EC1DE6 /* TestClassB.m in Sources */,
 				66C40F24239B4BDE00EC1DE6 /* AIRTransientScopeTestCase.m in Sources */,
