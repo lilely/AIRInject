@@ -5,7 +5,7 @@ Dependency injection is a softwaire pattern that implements Inversion of Control
 
 [SWinject]: https://github.com/Swinject/Swinject "SWInject"
 
-## Install
+## Installation with CocoaPods
 ```
 
 pod 'AIRInject'
